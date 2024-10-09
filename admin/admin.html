@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+           
+        }
+        body{
+            background-color: #0f0829;
+        }
+        .main-div{
+            
+            background-color: #0f0829;
+            
+        }
+        .header{
+            height: 110px;
+            width: 100%;
+            background-color:  #0f0829;
+            position: sticky;
+            margin-top: 0;
+            box-shadow: 3px 3px 5px white;
+            
+            
+        }
+        .footer{
+            height: 100px;
+            width: 100%;
+            background-color:  #0f0829;
+            bottom: 0;
+            left:0;
+            box-shadow: 3px 3px 5px black;
+            margin: 1px;
+
+        }
+        .navbar ul {
+            display: flex;
+            margin: 10px;
+            padding: 10px;
+            flex-shrink: initial;
+            justify-content: center;
+            align-items: center;
+            list-style-type: none;
+            background-color:  #0f0829;
+            
+        }
+        li{
+            float: left;
+            margin-left: 20px;
+            border: 1px solid;
+            padding: 7px;
+            
+        }
+        .middle{
+            height: 80vh;
+            background-color:#0f0829;
+            margin-bottom: 3px;
+            box-shadow: 3px 3px 5px black;
+        }
+        a{
+            text-decoration: none;
+            scroll-behavior: smooth;
+            
+        }
+        .logo{
+            margin-top: 10px;
+           
+        }
+        .logo h2{
+            text-align: center;
+            font-size: 29px;
+            color: aliceblue;
+        }
+        li{
+            border-radius: 15px;
+            color: aliceblue;
+        }
+        li:hover{
+            background-color: blue;
+            color: aliceblue;
+            box-shadow: 1px 1px 1px white;
+
+        }
+        #frame{
+            width: 100%;
+            height:100%;
+            background-color:white;
+            
+            
+            
+        }
+        
+
+        
+
+
+
+        @media (max-width:750px) {
+            li{
+                font-size: 9px;
+                padding: 10px;
+                margin-left:20px
+                
+            }
+            .logo h2{
+                text-align: center;
+                font-size: 25px;
+                
+            }
+            h2{
+                font-size: 32px;
+            }
+            
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="main-div">
+        <div class="header"> 
+        
+            <div class="logo">
+                <h2>SUPER MALL</h2>
+
+            </div>
+            <div class="navbar">
+                <ul>
+                   <a href="file:///C:/Users/chall/OneDrive/Desktop/supermall/Createshop/shopdetails.html" target="fr1"><li>CREATE SHOP</li></a>
+                   <a href="file:///C:/Users/chall/OneDrive/Desktop/supermall/Createshop/products.html"  target="fr1"><li>ADD PRODUCTS</li></a> 
+                   
+                   
+                    <a href="file:///C:/Users/chall/OneDrive/Desktop/supermall/user/user.html"><li>USER </li></a>
+                </ul>
+            </div>
+
+            
+        </div>
+        <div class="middle" id="home" >
+            <iframe name="fr1" id="frame">
+                
+            </iframe>
+            
+            
+        </div>
+        <div class="footer" id="foot"></div>
+        
+
+    </div>
+    
+</body>
+</html>

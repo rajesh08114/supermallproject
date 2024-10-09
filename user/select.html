@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floor wise details</title>
+    <style>
+        .mindiv {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+        }
+        body {
+            background-color: white;
+        }
+
+        #productdiv {
+            display: flex;
+            justify-content: center;
+
+            flex-wrap: wrap;
+            margin-top: 60px;
+            width: 100%;
+
+        }
+
+        .productcard {
+
+            height: 270px;
+            width: 200px;
+            margin: 20px;
+            background-color: white;
+            display: flex;
+            align-items: left;
+            border-radius: 20px;
+            border: outset;
+
+            flex-direction: column;
+            box-shadow: 1px 1px 10px rgb(255, 255, 255);
+            transition: border-color .3s;
+        }
+
+        .productcard:hover {
+            box-shadow: 2px 2px 5px rgb(0, 0, 0);
+        }
+
+
+        .thumb {
+            width: 190px;
+            height: 90px;
+            cursor: pointer;
+            margin-top: 5px;
+            margin: 2px;
+            border-radius: 15px;
+        }
+
+        .price {
+            margin-left: 45px;
+            margin-top: 0px;
+            font-size: 13px;
+        }
+
+        ul {
+            margin-left: 5px;
+            list-style-type: none;
+            margin-top: 0px;
+            
+        }
+
+        li {
+            left: 0;
+            font-size: 10px;
+            
+
+
+        }
+
+        .detbtns {
+            background-color: rgb(214, 221, 5);
+            color: black;
+            width: 40px;
+            margin-left: 45px;
+            padding: 5px;
+            border-radius: 5px;
+            margin-top: 0;
+
+        }
+
+        .detbtns:hover {
+            background-color: rgb(255, 255, 3);
+            color: rgb(0, 0, 0);
+            box-shadow: 1px 1px 2px black;
+        }
+
+        .title {
+            color: blue;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .flr1 {
+            display: flex;
+            height: 400px;
+            width: 100%;
+            justify-content: center;
+            flex-direction: column;
+            overflow-x:scroll;
+
+            flex-wrap: wrap;
+            margin-top: 60px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px black;
+
+        }
+        
+
+        .flr2 {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            height: 400px;
+            width: 100%;
+
+            flex-wrap: wrap;
+            margin-top: 60px;
+            overflow-x:scroll;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px black;
+
+
+        }
+
+        .flr3 {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            height: 400px;
+            overflow-x:scroll;
+            
+
+            width: 100%;
+
+            flex-wrap: wrap;
+            margin-top: 60px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px black;
+        }
+
+        .flr4 {
+            display: flex;
+            
+            flex-direction: column;
+
+            height: 400px;
+            width: 100%;
+            overflow-x:scroll;
+
+            flex-wrap: wrap;
+            margin-top: 60px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px black;
+
+        }
+
+        h4 {
+
+           
+           height: 10px;
+           width: 100%;
+            text-align: center;
+            top: 0;
+            margin-top: 0px;
+
+        }
+
+        @media(max-width:767px) {
+            #productsdiv {
+                justify-content: center;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="mindiv">
+        <div id="productdiv" class="detdiv">
+            <div class="flr1" id="flrr1">
+                <div>
+                    <h4>FLOOR 1</h4>
+                </div>
+                <div id="flrr1"></div>
+            </div>
+            <div class="flr2" id="flrr2">
+                <div>
+                    <h4>FLOOR 2</h4>
+                </div>
+                <div id="flrr2"></div>
+            </div>
+            <div class="flr3" id="flrr3">
+                <div>
+                    <h4>FLOOR 3</h4>
+                </div>
+                <div id="flrr3"></div>
+            </div>
+            <div class="flr4">
+                <div>
+                    <h4>FLOOR 4</h4>
+                </div>
+                <div id="flrr4"></div>
+
+            </div>
+            
+
+        </div>
+    </div>
+</body>
+<script type="module">
+    import { getDatabase, ref, set, update, get, child, push, onValue } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+    import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyC_1sj1nPruNoqY26XmkuefnQYvVml8whA",
+        authDomain: "supermall2.firebaseapp.com",
+        databaseURL: "https://supermall2-default-rtdb.firebaseio.com",
+        projectId: "supermall2",
+        storageBucket: "supermall2.appspot.com",
+        messagingSenderId: "1033694743034",
+        appId: "1:1033694743034:web:119a0c246b07f549347c43"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    const db = getDatabase();
+
+    var btn3;
+    var sel = document.getElementById('floor2')
+    //  var get2 = document.getElementById('get1')
+    // // let get3= document.querySelector('button');
+    // sel.addEventListener("change",ab);
+    // function ab(){
+    //     alert(sel.value)
+    // }
+
+
+
+    var OuterDiv = document.getElementById('productdiv');
+    let fl1 = document.getElementById('flrr1');
+    let fl2 = document.getElementById('flrr2');
+    let fl3 = document.getElementById('flrr3');
+    let fl4 = document.getElementById('flrr4');
+    var ArrayOfProducts = [];
+
+    window.addEventListener("load", GetAllProducts);
+    function GetAllProducts() {
+
+        const dbref = ref(db)
+        get(child(dbref, "products/"))
+            .then((snapshot) => {
+                snapshot.forEach(prod => {
+                    ArrayOfProducts.push(prod.val());
+                });
+
+
+
+                AddAllProducts();
+                
+
+
+
+            })
+    }
+    function AddAllProducts() {
+
+
+        let i = 1;
+        ArrayOfProducts.forEach(prod => {
+
+            AddAproduct(prod, i++)
+            
+
+        })
+    }
+    function AddAproduct(product,index){
+    
+
+    
+    
+        
+
+       
+    
+    let html = `
+    <img src="`+product.product_image+`" class="thumb mt-1" id="thumb-`+ index+`"></img>
+            <p class="title" id="title-`+ index+`"> `+ product.product_name.substring(0,20)+"...."+`</p>
+            <ul>
+                <li id="pds">`+ product.product_dicount.substring(0,20)+"...."+`
+                </li>
+                 <li id="pofr">`+ product.product_offer.substring(0,20)+"...."+`
+                </li>
+                <li>In Stock `+product.product_quantity.substring(0,20)+`
+                </li>
+                
+            </ul>
+            <h5 class="price">
+                Rs `+product.product_price.substring(0,47)+`
+            </h5>
+            <button class="detbtns btn"  id="btn`+index +`">BUY </button>
+    
+    `
+    let newProd = document.createElement('div');
+    newProd.classList.add('productcard');
+    newProd.innerHTML= html
+    if(product.company_floor==1){
+
+    
+    fl1.append(newProd);
+    btn3=document.getElementById('btn'+index);
+    btn3.addEventListener("click",dis);
+    }
+    if(product.company_floor==2){
+
+    
+fl2.append(newProd);
+btn3=document.getElementById('btn'+index);
+btn3.addEventListener("click",dis);
+}
+if(product.company_floor==3){
+
+    
+fl3.append(newProd);
+btn3=document.getElementById('btn'+index);
+btn3.addEventListener("click",dis);
+}
+if(product.company_floor==4){
+
+    
+fl4.append(newProd);
+btn3=document.getElementById('btn'+index);
+btn3.addEventListener("click",dis);
+}
+    function dis(){
+    
+    return alert("This option is not Availble coming soon!")
+
+}
+
+    
+
+}
+
+// function AddAproduct1(product,index){
+//     console.log(product)
+//     if(product.company_floor==2){
+//         if(product.product[]!=undefined){
+
+        
+//         console.log(product.product)
+//         console.log(product.product[index]!=undefined)
+//         console.log(product.product[index])
+
+
+
+//     let html = `
+//     <img src="`+product.product[index].product_image[0]+`" class="thumb mt-1" id="thumb-`+ index+`"></img>
+//             <p class="title" id="title-`+ index+`"> `+ product.product[index].product_name.substring(0,20)+"...."+`</p>
+//             <ul>
+//                 <li id="pds">`+ product.product[index].product_dicount.substring(0,20)+"...."+`
+//                 </li>
+//                  <li id="pofr">`+ product.product[index].product_offer.substring(0,20)+"...."+`
+//                 </li>
+//                 <li>In Stock `+product.product[index].product_quantity.substring(0,20)+`
+//                 </li>
+                
+//             </ul>
+//             <h5 class="price">
+//                 Rs `+product.product[index].product_price.substring(0,47)+`
+//             </h5>
+//             <button class="detbtns btn"  id="btn`+index +`">BUY </button>
+    
+//     `
+//     let newProd = document.createElement('div');
+//     newProd.classList.add('productcard');
+//     newProd.innerHTML= html
+//     fl2.append(newProd);
+//     btn3=document.getElementById('btn'+index);
+//     btn3.addEventListener("click",dis);
+//     }}
+//     function dis(){
+    
+//     return alert("This option is not Availble coming soon!")
+
+// }
+
+    
+
+// }
+
+
+
+
+</script>
+
+</html>

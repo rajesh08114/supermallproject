@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Create shop</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .shop-Container {
+            max-width: 500px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 7px 5px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            margin-top:  340px;
+            margin-bottom: 30px;
+            border: outset;
+
+
+        }
+
+        .form-cont {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .form-cont input {
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px;
+            border: outset
+        }
+
+        input:active {
+            background-color: aliceblue;
+
+        }
+
+        .form-cont button {
+
+            border-radius: 10px;
+            margin-top: 10px;
+            padding: 10px 5px;
+            border: none;
+            background-color: blue;
+            font-size: 16px;
+            color: aliceblue
+        }
+
+        button:hover {
+
+            border: 1px;
+
+
+        }
+
+        button:active {
+            width: 300px;
+            margin-left: 10px;
+
+            box-shadow: 1px 1px 5px rgb(4, 58, 254);
+        }
+
+        .form-cont h2 {
+            text-align: center;
+            padding-bottom: 10px;
+
+        }
+        textarea{
+            height: 60px;
+            resize: none;
+            /* width: 415px; */
+            margin-left: 10px;
+            border: outset;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .shop-Container {
+                padding: 20px;
+            }
+
+            .form-cont input,
+            .form-cont button {
+                font-size: 14px;
+
+            }
+            
+
+            p {
+                font-size: 10px;
+                margin-top: 20px;
+
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shop-Container">
+        <form class="form-cont">
+            <h2> SHOP DETAILS</h2>
+
+            <input type="email" placeholder="Email" id="email" required>
+            <input type="text" placeholder="ShopId" id="ShopId" autofocus required>
+            <input type="text" placeholder="Owner name" id="owner" required>
+            
+            <input type="tel" placeholder="Mobile number"id="mobile">
+            <input type="text" placeholder="ShopName" id="shopname">
+            <input type="number" id="Floor" placeholder="Floor" min="1" max="4">
+          
+            <textarea id="shopoffer" placeholder="shop offers"></textarea>
+            <button id="shop_save">CREATE</button><button id="shop_show">SHOW</button>
+            <button id="shop_update">UPDATE</button>
+            <!-- <P>Enter the existing shop id and click on show button to see shop details</P>
+            <P style="line-height: 18px;">If you want change the details then click on update button after edit the details</P> -->
+        </form>
+
+    </div>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getDatabase, ref, set, get, update,child } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyC_1sj1nPruNoqY26XmkuefnQYvVml8whA",
+        authDomain: "supermall2.firebaseapp.com",
+        databaseURL: "https://supermall2-default-rtdb.firebaseio.com",
+        projectId: "supermall2",
+        storageBucket: "supermall2.appspot.com",
+        messagingSenderId: "1033694743034",
+        appId: "1:1033694743034:web:119a0c246b07f549347c43"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+    const shop_id = document.getElementById('ShopId');
+    const shop_name = document.getElementById('shopname');
+    const shop_email = document.getElementById('email');
+    const shop_owner = document.getElementById('owner');
+    const shop_mobile = document.getElementById('mobile');
+    const shop_offer = document.getElementById('shopoffer');
+
+    const shop_floor = document.getElementById('Floor');
+    const create = document.getElementById('shop_save');
+    const showbtn = document.getElementById('shop_show');
+    const updatebtn = document.getElementById('shop_update');
+    var  validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    create.addEventListener("click",((e)=>{
+        if(shop_email.value.match(validRegex)){
+
+
+        
+        var x = (shop_id.value == "" || shop_email.value == "" || shop_name.value == "" || shop_floor.value == ""|| shop_mobile.value=="" || shop_owner.value=="")
+        if (x != true) {
+        e.preventDefault()
+        set(ref(db,'shop/' + shop_id.value), {
+            company_id : shop_id.value,
+            company: shop_name.value,
+            company_email: shop_email.value,
+            company_owner: shop_owner.value,
+            company_offers: shop_offer.value,
+            company_mobile_no: shop_mobile.value,
+            company_floor: shop_floor.value
+        
+        }).then(() => {
+            alert("shop created");
+            
+            window.location.reload();
+
+        })
+    }
+    else{
+        alert("Fill all inputs")
+    }
+}else{
+    alert("please enter valid email!")
+}
+    }))
+      
+
+    updatebtn.addEventListener("click",((e)=>{
+
+        var x = (shop_id.value == "" || shop_email.value == "" || shop_name.value == "" || shop_floor.value == ""|| shop_mobile.value=="" || shop_owner.value=="")
+        if (x != true) {
+            e.preventDefault();
+            update(ref(db, 'shop/' +shop_id.value), {
+                company : shop_name.value,
+                company_email : shop_email.value,
+                company_floor : shop_floor.value,
+                company_owner : shop_owner.value,
+                company_offers: shop_offer.value,
+                company_mobile_no : shop_mobile.value
+            }).then(() => {
+                alert("shop updated")
+                
+                window.location.reload();
+
+
+            }).catch((error) => {
+                alert(error);
+                console.log(error);
+
+            })
+        }
+        else {
+            alert("Fill all inputs")
+        }
+    }))
+        
+        
+
+    
+    showbtn.addEventListener("click",(()=>{
+        var x = (shop_id.value == "")
+        if (x != true) {
+        const dbref =ref(db);
+        get(child(dbref,'shop/' + shop_id.value)).then((snapshot)=>{
+            if(snapshot.exists()){
+                shop_owner.value  = snapshot.val().company_owner;
+                shop_email.value = snapshot.val().company_email;
+                shop_mobile.value =snapshot.val().company_mobile_no;
+                shop_name.value = snapshot.val().company;
+                shop_floor.value = snapshot.val().company_floor;
+                shop_offer.value = snapshot.val().company_offers;
+
+            }
+            else{
+                alert(" shop details does not exist")
+            }
+        }).catch((error)=>{
+            alert("unsuccessful");
+            console.log(error);
+        })
+    }else{
+        alert("please enter shop id")
+    }
+}))
+        
+
+        
+        
+        
+        
+
+    
+    
+
+</script>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shop details</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        ul{
+            list-style-type: none;
+        }
+        .shopcard{
+            width: 400px;
+            height: 600px;
+            border: 1px solid black;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 2px 5px black;
+            border-radius: 10px;
+            margin-top: 100px;
+           
+        }
+        input{
+            padding: 10px;
+            width: 200px;
+            margin-top: 40px;
+            margin-left: 40px;
+            
+            
+
+        }
+        button{
+            padding: 10PX;
+            background-color: blue;
+            color: white;
+        }
+        button:hover{
+            box-shadow: 1px 2px 3px black;
+
+        }
+        button:active{
+            box-shadow: 1px 2px 3px white;
+        }
+
+        li{
+            font-size: 15px;
+            margin: 20px;
+            background-color: aliceblue;
+        }
+        #so{
+            overflow-x: scroll;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="shopcard" id="sc">
+            <div>
+            
+            <input type="text" placeholder="enter shop id"  id="shpid"required > <button id="get1">GET DETAILS</button>
+        </div>
+            <Ul>
+               SHOP ID:<li id="sd"></li>
+               SHOP NAME:<li id="sn"></li>
+               SHOP EMAIL:<li id="se"></li>
+               SHOP OFFERS: <li id="so"></li>
+               SHOP FLOOR:<li id="sf"></li>
+            </Ul>
+            
+
+
+        </div>
+    </div>
+    
+</body>
+<script type="module" >  // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getDatabase, ref, set, get, update,child } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyC_1sj1nPruNoqY26XmkuefnQYvVml8whA",
+        authDomain: "supermall2.firebaseapp.com",
+        databaseURL: "https://supermall2-default-rtdb.firebaseio.com",
+        projectId: "supermall2",
+        storageBucket: "supermall2.appspot.com",
+        messagingSenderId: "1033694743034",
+        appId: "1:1033694743034:web:119a0c246b07f549347c43"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+    let sel = document.getElementById('shpid');
+    let get2 = document.getElementById('get1');
+  
+        
+    let shoplist = [];
+   
+    const selectData =()=>{
+        const dbref =ref(db);
+        get(child(dbref,'shop/')).then((snapshot)=>{
+            shoplist = [];
+            snapshot.forEach(shop =>{
+                shoplist.push(shop.val());
+            });
+            
+            addRecords();
+
+        })
+    }
+    let li1= document.getElementById('sd');
+    let li2= document.getElementById('sn');
+    let li3= document.getElementById('se');
+    let li4= document.getElementById('so');
+    let li5= document.getElementById('sf');
+    const addshops = (company_id,company,company_email,company_floor,company_offers) =>{
+        
+        
+        li1.innerHTML = company_id;
+        li2.innerHTML = company;
+        li3.innerHTML = company_email;
+        li5.innerHTML = company_floor;
+        li4.innerHTML =company_offers
+        
+       
+
+    }
+
+    const addRecords = ()=>{
+        
+        shoplist.forEach(shop =>{
+            if(shop.company_id==sel.value){
+            addshops(shop.company_id,shop.company,shop.company_email,shop.company_floor,shop.company_offers)
+            }
+        })
+        
+
+    }
+    get2.addEventListener('click',selectData);
+
+
+</script>
+</html>

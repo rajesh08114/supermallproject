@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUPER MALL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+        body{
+            top: 0;
+            padding: 0;
+            margin: 0;
+            background-color: #0f0829;
+        }
+
+        .main-div {
+            
+            background-color: #0f0829;
+            
+
+        }
+
+        .header {
+            height: 130px;
+            width: 100%;
+            background-color: #0f0829;
+            position: sticky;
+            
+            box-shadow: 3px 3px 5px black;
+            top:0
+
+
+        }
+
+        .footer {
+            height: 100px;
+            width: 100%;
+            
+            background-color: #0f0829;
+            bottom: 0;
+            left: 0;
+            
+            margin: 1px;
+
+        }
+
+
+        .middle {
+            height: 100%;
+            background-color: white;
+            margin-bottom: 3px;
+            box-shadow: 3px 3px 5px black;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+           
+        }
+
+        .logo {
+            margin-top: 10px;
+
+        }
+
+        .logo h2 {
+            text-align: center;
+            font-size: 29px;
+            color: white;
+        }
+        .admin{
+            height: 66vh;
+            width: 600px;
+            background-color: white;
+            box-shadow: 3px 3px 16px black;
+            margin-top: 30px;
+            margin-left:20px;
+            border-radius: 15px;
+            
+            
+        }
+        .user{
+            height: 66vh;
+            width: 600px;
+            background-color: white;
+            box-shadow: 3px 3px 16px black;
+            margin-top: 30px;
+            margin-left:20px;
+            border-radius: 15px;
+            
+        }
+        h3{
+            text-align: center;
+            margin-top: 30px;
+        }
+        button{
+            width: 100px;
+            margin-left: 250px;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        button:hover{
+            background-color: rgb(1, 1, 248);
+            color: aliceblue;
+        }
+        button:active{
+            padding: 8px;
+            box-shadow: 1px 1px 3px black;
+        }
+        p{
+            margin-top:90px;
+            margin-left:150px;
+
+           
+        }
+        a{
+            text-decoration: none;
+        } 
+        
+
+        @media (max-width:600px) {
+
+            .logo h2 {
+                text-align: center;
+                font-size: 25px;
+
+            }
+            .admin{
+                max-width: 200px;
+                margin:20px;
+                height: 65vh
+            }
+            .user{
+                max-width: 200px;
+                margin:20px;
+                height: 65vh
+
+                
+            }
+            .middle{
+                justify-content: space-evenly;
+            
+            }
+            button{
+            width: 100px;
+            margin-left: 50px;
+            margin-top:30px;
+            height: 40px
+            
+        }
+        p{
+            width: 60px;
+            margin-left: 65px;
+            margin-top: 70px;
+        
+        }
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-div">
+        <div class="header">
+
+            <div class="logo">
+                <h2>SUPER MALL</h2>
+
+            </div>
+            <div class="navbar">
+
+        </div>
+        </div>
+        <div class="middle" id="home">
+            <div class="admin">
+                <h3>ADMIN</h3>
+                <p>
+                    If you are admin just click on the button
+                </p>
+                <a href="Login/login.html"><button>ADMIN</button></a>
+               
+
+            </div>
+            <div class="user">
+                <h3>CUSTOMER</h3>
+                <p>
+                    If you are customer just click on the button
+                </p>
+                <a href="user/user.html"><button>CUSTOMER</button></a>
+
+            </div>
+        </div>
+        <div class="footer" id="foot"></div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of shops</title>
+    <style>
+           *{
+            background-color:white;
+           }
+           body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+           }
+           .container{
+            margin-top: 100px;
+            background-color: rgb(15, 17, 30);
+            color: rgb(0, 0, 0);
+            /* width: 900px; */
+            display: flex;
+            border: 1px solid;
+            box-shadow: 2px 3px 5px black;
+            
+           }
+        table{
+            
+           
+            border:1px solid white;
+            border-collapse: collapse ;
+            /* width: 100%;  */
+            height: 100%;
+        }
+        th,td{
+            background-color: rgb(255, 255, 255);
+            padding: 20px;
+            border:1px solid black;
+            width: 100px;
+            height: 100%;
+        }
+        td:nth-child(odd){
+            background-color: rgb(253, 251, 249);
+        }
+        td:hover:nth-child(even){
+            background-color: rgb(237, 248, 237);
+        }
+
+        @media (max-width:680px) {
+            .container{
+                max-width: 450px;
+               
+               
+
+            }
+            
+            table,th,td{
+                width: 550px;
+                font-size: small;
+                padding: 10px;
+                height: 100%;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+
+  
+
+    <div class="container ">
+        <table class="table1">
+            <thead class="thead1">
+                <th >Sno</th>
+                <th>shop_id</th>
+                <th>shop_name</th>
+                <th>shop_email</th>
+                <th>shop_floor</th>
+                <th>offers</th>
+            </thead>
+            <tbody id="tbody" >
+
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getDatabase, ref, set, get, update,child } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyC_1sj1nPruNoqY26XmkuefnQYvVml8whA",
+        authDomain: "supermall2.firebaseapp.com",
+        databaseURL: "https://supermall2-default-rtdb.firebaseio.com",
+        projectId: "supermall2",
+        storageBucket: "supermall2.appspot.com",
+        messagingSenderId: "1033694743034",
+        appId: "1:1033694743034:web:119a0c246b07f549347c43"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+  
+        
+    let shoplist = [];
+    let sno = 0;
+    let tbody = document.getElementById('tbody')
+    
+    const selectData =()=>{
+        const dbref =ref(db);
+        get(child(dbref,'shop/')).then((snapshot)=>{
+            shoplist = [];
+            snapshot.forEach(shop =>{
+                shoplist.push(shop.val());
+            });
+            console.log(shoplist)
+            addRecords();
+            
+
+
+
+
+
+
+           
+        
+        })
+    }
+    const addshops = (company_id,company,company_email,company_floor,company_offer) =>{
+        let trow = document.createElement('tr');
+        let td1 = document.createElement('td');
+        let td2 = document.createElement('td');
+        let td3 = document.createElement('td');
+        let td4 = document.createElement('td');
+        let td5 = document.createElement('td');
+        let td6 = document.createElement('td');
+        td1.innerHTML =++sno;
+        td2.innerHTML = company_id;
+        td3.innerHTML = company;
+        td4.innerHTML = company_email;
+        td5.innerHTML = company_floor;
+        td6.innerHTML = company_offer;
+        
+        trow.append(td1,td2,td3,td4,td5,td6);
+        tbody.append(trow)
+
+    }
+
+    const addRecords = ()=>{
+        sno = 0;
+        tbody.innerHTML = "";
+        shoplist.forEach(shop =>{
+            console.log()
+            addshops(shop.company_id,shop.company,shop.company_email,shop.company_floor,shop.company_offers)
+        })
+
+    }
+    window.addEventListener('load',selectData);
+   
+
+
+        
+
+        
+        
+        
+        
+
+    
+    
+
+</script>
+</html>

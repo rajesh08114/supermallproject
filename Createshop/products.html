@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products Details</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0px;
+      box-sizing: border-box;
+    }
+
+    body {
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+
+    }
+
+    .prod-Container {
+      max-width: 480px;
+      background-color: white;
+      padding: 10px;
+      border-radius: 15px;
+      box-shadow: 7px 5px 5px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      margin-top: 90px;
+      margin-bottom: 50px;
+      border: solid 1px;
+
+
+
+
+    }
+
+    .form-prod {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+
+      margin-top: 30px;
+      width: 100%;
+    }
+
+    .form-prod input {
+      /* margin: 10px; */
+      margin: 10px 0;
+      padding: 15px;
+      min-width: 100px;
+      border: outset;
+      width: 400px;
+
+    }
+
+    textarea {
+      padding: 8px;
+      padding: 10px;
+      width: 400px;
+      margin: 10px 0;
+      border: outset;
+      resize: none;
+      height: 100px;
+    }
+
+    button {
+      color: white;
+      background-color: blue;
+      font-size: 12px;
+      width: 100px;
+      margin: 10px;
+      margin-top: 30px;
+      padding: 10px;
+      border-radius: 10px;
+
+    }
+
+    h2 {
+      text-align: center;
+      margin: 10px;
+    }
+
+    button:active {
+      width: 100px;
+      margin-left: 15px;
+      box-shadow: 1px 1px 5px rgb(4, 58, 254);
+    }
+
+    #prod_img {
+      background-color: aliceblue;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      margin: 3px;
+      border: 1px solid black;
+
+
+    }
+
+    #img1 {
+      width: 400px;
+      height: 200px;
+      border: outset;
+      margin-left: 10px;
+
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      overflow-x: scroll;
+    }
+
+    #butn {
+      display: flex;
+      justify-content: center;
+
+    }
+
+    select {
+      padding: 10px;
+      width: 400px;
+
+      border: outset;
+
+    }
+
+    @media (max-width:600px) {
+      .form-prod input {
+        padding: 10px;
+      }
+
+      .prod-Container {
+        width: 450px;
+        justify-content: center;
+      }
+
+      input {
+        margin-left: 0;
+
+      }
+
+      #img1 {
+        margin-left: 0px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="prod-Container">
+    <form class="form-prod">
+      <h2>
+        Product Details
+      </h2>
+      <input type="text" placeholder="Shop Id" id="shop_id" required>
+
+      <input type="text" placeholder="Product Name" id="prod_name" required>
+      <input type="text" placeholder="Product Id" id="prod_id" required>
+      <input type="number" placeholder="price" id="Prod_price" required>
+      <input type="file" placeholder="image" id="prod_img" accept="image/*">
+      
+
+      <input type="number" placeholder="Quantity" id="prod_qunt" required min="0">
+      <input type="text" placeholder="Discount" id="prod_disc" required>
+      <textarea id="prod_offers" placeholder=" product offers and description"></textarea><br>
+
+      <!-- <div id="img1">
+                
+
+            </div> -->
+      <div id="butn">
+
+        <button type="submit" id="prod_save"> Add</button>
+        <button  id="ic"> clear image</button>
+        <button type="reset" id="rs"> Reset</button>
+
+
+
+
+      </div>
+
+
+
+
+    </form>
+  </div>
+  <script type="module">
+    import { getDatabase, ref, set, update, get, child, push, onValue } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+    import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC_1sj1nPruNoqY26XmkuefnQYvVml8whA",
+      authDomain: "supermall2.firebaseapp.com",
+      databaseURL: "https://supermall2-default-rtdb.firebaseio.com",
+      projectId: "supermall2",
+      storageBucket: "supermall2.appspot.com",
+      messagingSenderId: "1033694743034",
+      appId: "1:1033694743034:web:119a0c246b07f549347c43"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    const db = getDatabase();
+
+
+
+    let file2;
+    var ImgLinksArray = [];
+    var flag=false;
+
+
+
+    const shopid = document.getElementById('shop_id');
+    const prodid = document.getElementById('prod_id');
+    const prodname = document.getElementById('prod_name');
+    const prodprice = document.getElementById('Prod_price');
+    const prodquantity = document.getElementById('prod_qunt');
+    const proddisc = document.getElementById('prod_disc');
+    const prodoffer = document.getElementById('prod_offers');
+    const prodimg = document.getElementById('prod_img');
+    const savebtn = document.getElementById('prod_save');
+    let prodtype = document.getElementById('type');
+    const imgd1 = document.getElementById('img1');
+    const addimg1 = document.getElementById('addimg')
+    const ic1 = document.getElementById('ic');
+    const up1 = document.getElementById('up')
+    ic1.addEventListener("click",()=>{prodimg.value=""})
+
+    prodimg.addEventListener("change", (e) => {
+      file2 = e.target.files[0]
+    })
+    function getShortTitle() {
+      let namey = prodname.value.substring(0, 50);
+      return namey.replace(/[^a-zA-Z0-9]/g, "")
+
+    }
+    savebtn.addEventListener("click", (e) => {
+      e.preventDefault()
+      
+
+        var x = (shopid.value == "")
+        if (x != true) {
+          const dbref = ref(db);
+          get(child(dbref, 'shop/' + shopid.value)).then((snapshot) => {
+            if (snapshot.exists()) {
+              var test1 = (shopid.value == "" || prodid.value == "" || prodname.value == "" || prodoffer.value == "" || prodprice.value == "" || proddisc.value == "" || prodquantity == "");
+              if (test1 != true) {
+                UploadAllImages();
+              }
+              else {
+                return alert(" Error : please enter the all inputs!");
+              }
+
+            }
+            else {
+              return alert(" shop details does not exist");
+            }
+          }).catch((error) => {
+            alert("unsuccessful");
+            console.log(error);
+          })
+        } else {
+          alert("please enter shop id")
+        }
+    })
+
+
+    //-------------------------------------------------------------------------------------------------
+
+    const storage = getStorage();
+
+    function UploadAllImages() {
+      uploadImage(file2, 1);
+    }
+
+
+    function uploadImage(imgtoupload, imgNo) {
+      const metadata = {
+        contentType: imgtoupload.type
+      };
+
+      const ImageAddress = "TheImages/" + getShortTitle() + "/img#" + (imgNo + 1);
+      const storageRef = sRef(storage, ImageAddress);
+
+      const uploadTask = uploadBytesResumable(storageRef, imgtoupload, metadata);
+      uploadTask.on('state_changed', (snapshot) => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          ImgLinksArray.push(downloadURL);
+
+
+          AddProduct(event);
+        });
+      })
+    }
+
+
+
+    function AddProduct(event) {
+      var a = [];
+      var floor;
+      event.preventDefault()
+
+      const dbref = ref(db)
+      get(child(dbref, "shop/"))
+        .then((snapshot) => {
+          console.log(snapshot.val())
+          snapshot.forEach(prod => {
+
+            a.push(prod.val());
+
+          });
+          for (let i = 0; i < a.length; i++) {
+            if (shopid.value == a[i].company_id) {
+              floor = a[i].company_floor
+              console.log(floor)
+              flag = true;
+              console.log(flag)
+            }
+            
+          }
+
+          if(flag==false){
+            alert("please enter valid shop id");
+          }
+          if (flag) {
+            let b=[];
+            var bflag=false;
+            get(child(dbref,"/products"))
+    .then((snapshot)=>{
+        
+        snapshot.forEach(prod=>{
+            b.push(prod.val()); 
+        });
+        for(let i=0;i<b.length;i++){
+          if(b[i].product_id==prodid.value){
+            bflag=true
+            break;
+          }
+          else{
+            bflag=false
+          }
+
+        }
+        console.log(bflag)
+    
+    console.log(bflag)
+    if(bflag==false){
+            //----------------------------------------
+            const  postData = {
+          product_id: prodid.value,
+          product_name: prodname.value,
+          product_price: prodprice.value,
+          product_quantity: prodquantity.value,
+          product_image: ImgLinksArray,
+          product_dicount: proddisc.value,
+          product_offer: prodoffer.value,
+          company_floor:floor
+            }
+
+
+            const newPostKey = push(child(ref(db), 'shop/')).key;
+
+            // Write the new post's data simultaneously in the posts list and the user's post list.
+            const updates = {};
+            // updates['/posts/' + newPostKey] = postData;
+            updates['/products/' + prodid.value] = postData;
+
+            return update(ref(db), updates).then(() => {
+        alert("Product Added");
+
+      window.location.reload()
+
+
+      }).catch((error) => {
+        alert(error);
+        console.log(error);
+
+      });
+    }else{
+      alert("product id already exists")
+    }
+    })
+          }
+
+        })
+
+      
+
+      
+    }
+
+
+  </script>
+
+</body>
+
+</html>

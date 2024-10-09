@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shops offers</title>
+    <style>
+           *{
+            background-color:white;
+           }
+           body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+           }
+           .container{
+            margin-top: 100px;
+            background-color: rgb(15, 17, 30);
+            color: rgb(0, 0, 0);
+            /* width: 900px; */
+            display: flex;
+            border: 1px solid;
+            box-shadow: 2px 3px 5px black;
+           
+            
+           }
+        table{
+            
+            border:1px solid white;
+            border-collapse: collapse ;
+            /* width: 100%;  */
+            height: 100%;
+            
+        }
+        th,td{
+            background-color: rgb(255, 255, 255);
+            padding: 10px;
+            border:1px solid black;
+            
+            max-height: 200px;
+            
+        }
+        td:nth-child(odd){
+            background-color: rgb(248, 245, 245);
+        }
+        td:hover:nth-child(even){
+            background-color: rgb(237, 248, 237);
+        }
+       #offer {
+            max-width: 400px;
+            
+            overflow: scroll;
+        }
+
+        @media (max-width:680px) {
+            .container{
+                max-width: 450px;
+               
+               
+
+            }
+            
+            table{
+                width: 200px;
+                font-size: small;
+                padding: 10px;
+                height: 50px;
+            }
+            td{
+                width: 100px;
+                font-size: small;
+                padding: 10px;
+                height: 10px;
+            }
+            #offer {
+            /* max-width: 200px; */
+            
+            overflow-x: scroll;
+           
+        }
+    }
+    </style>
+    
+</head>
+<body>
+
+  
+
+    <div class="container ">
+        <table class="table1">
+            <thead class="thead1">
+                <th >Sno</th>
+                <th>product_id</th>
+                <th>product_name</th>
+                <th >Offers/discription</th>
+                <th>floor</th>
+            </thead>
+            <tbody id="tbody" >
+
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getDatabase, ref, set, get, update,child } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyC_1sj1nPruNoqY26XmkuefnQYvVml8whA",
+        authDomain: "supermall2.firebaseapp.com",
+        databaseURL: "https://supermall2-default-rtdb.firebaseio.com",
+        projectId: "supermall2",
+        storageBucket: "supermall2.appspot.com",
+        messagingSenderId: "1033694743034",
+        appId: "1:1033694743034:web:119a0c246b07f549347c43"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+   
+    
+        
+    let shoplist = [];
+    let sno = 0;
+    let tbody = document.getElementById('tbody')
+    
+    const selectData =()=>{
+        const dbref =ref(db);
+        get(child(dbref,'products/')).then((snapshot)=>{
+            shoplist = [];
+            snapshot.forEach(shop =>{
+                shoplist.push(shop.val());
+            });
+            console.log(shoplist[0].product_id)
+            addRecords();
+            
+
+
+
+
+
+
+           
+        
+        })
+    }
+    const addshops = (product_id,company,company_offers,company_floor) =>{
+        let trow = document.createElement('tr');
+        let td1 = document.createElement('td');
+        let td2 = document.createElement('td');
+        let td3 = document.createElement('td');
+        let td4 = document.createElement('td');
+        let td5 = document.createElement('td');
+        td1.innerHTML =++sno;
+        td2.innerHTML = product_id;
+        td3.innerHTML = company;
+        td4.innerHTML = company_offers;
+        td5.innerHTML = company_floor;
+        td4.id="offer";
+
+        
+        trow.append(td1,td2,td3,td4,td5);
+        tbody.append(trow)
+
+    }
+
+    const addRecords = ()=>{
+        sno = 0;
+        tbody.innerHTML = "";
+        shoplist.forEach(shop =>{
+            addshops(shop.product_id,shop.product_name,shop.product_offer,shop.company_floor)
+        })
+
+    }
+    window.addEventListener('load',selectData);
+   
+
+
+        
+
+        
+        
+        
+        
+
+    
+    
+
+</script>
+</html>
