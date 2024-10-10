@@ -30,3 +30,5 @@
 </ul>
 
 
+You can use website by this link: http://super-mall-1.netlify.app
+
